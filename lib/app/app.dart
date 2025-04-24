@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'view/topbar.dart';
 import 'view/bottombar.dart';
-import 'view/storekeeper_body.dart';
+import 'view/pages/list_page.dart';
+import 'view/pages/home_page.dart';
+import 'view/pages/profile_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -91,15 +93,37 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class StorekeeperPage extends StatelessWidget {
+class StorekeeperPage extends StatefulWidget {
   const StorekeeperPage({super.key});
+
+  @override
+  State<StorekeeperPage> createState() => _StorekeeperPageState();
+}
+
+class _StorekeeperPageState extends State<StorekeeperPage> {
+  int selectedIndex = 1;
+
+  final List<Widget> pages = const [
+    ListPage(),
+    HomePage(),
+    ProfilePage(),
+  ];
+
+  void onTabTapped(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const TopBar(),
-      body: const StorekeeperBody(),
-      bottomNavigationBar: const BottomBar(),
+      body: pages[selectedIndex],
+      bottomNavigationBar: BottomBar(
+        onTabTapped: onTabTapped,
+        selectedIndex: selectedIndex,
+      ),
     );
   }
 }

@@ -1,29 +1,24 @@
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatelessWidget {
-  const BottomBar({super.key});
+  final Function(int) onTabTapped;
+  final int selectedIndex;
+
+  const BottomBar({super.key, required this.onTabTapped, required this.selectedIndex});
 
   @override
   Widget build(BuildContext context) {
-    // Obtenemos el tema actual para mantener la coherencia con el resto de la aplicación
     final theme = Theme.of(context);
-    
+
     return BottomAppBar(
-      // Elevación sutil para dar profundidad
       elevation: 8,
-      // Color de fondo que coincide con el tema
       color: Colors.white,
-      // Forma redondeada en la parte superior para combinar con el AppBar
       shape: const AutomaticNotchedShape(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(16),
-          ),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
         ),
       ),
-      // Altura adecuada para mejor usabilidad
       height: 64,
-      // Padding para mejor apariencia
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -31,30 +26,28 @@ class BottomBar extends StatelessWidget {
           IconButton(
             icon: Icon(
               Icons.list,
-              // Usamos el color primario del tema
-              color: theme.colorScheme.primary,
+              color: selectedIndex == 0 ? theme.colorScheme.secondary : theme.colorScheme.primary,
               size: 28,
             ),
-            onPressed: () {},
+            onPressed: () => onTabTapped(0),
             tooltip: 'Listar',
           ),
           IconButton(
             icon: Icon(
               Icons.home,
-              // Usamos el color secundario del tema para destacar
-              color: theme.colorScheme.secondary,
+              color: selectedIndex == 1 ? theme.colorScheme.secondary : theme.colorScheme.primary,
               size: 28,
             ),
-            onPressed: () {},
+            onPressed: () => onTabTapped(1),
             tooltip: 'Inicio',
           ),
           IconButton(
             icon: Icon(
-              Icons.account_circle_outlined, // Versión outline del icono para un estilo más moderno
-              color: theme.colorScheme.primary,
+              Icons.account_circle_outlined,
+              color: selectedIndex == 2 ? theme.colorScheme.secondary : theme.colorScheme.primary,
               size: 28,
             ),
-            onPressed: () {},
+            onPressed: () => onTabTapped(2),
             tooltip: 'Perfil',
           ),
         ],
